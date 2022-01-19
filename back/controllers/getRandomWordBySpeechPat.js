@@ -1,9 +1,9 @@
 const AWS = require("aws-sdk");
 const ddb = new AWS.DynamoDB.DocumentClient({ region: "eu-west-1" });
 const getRandomWordBySpeechPart = async (req, res, next) => {
-  const { pos } = req.params;
+  const { part } = req.params;
   let { letter } = req.query;
-  if (!pos) return next("missing params");
+  if (!part) return next("missing params");
   if (!letter) {
     letter = "";
   }
@@ -12,7 +12,7 @@ const getRandomWordBySpeechPart = async (req, res, next) => {
     KeyConditionExpression: "pos=:pos AND begins_with (word , :letter)",
     ExpressionAttributeValues: {
       ":letter": letter.toUpperCase(),
-      ":pos": pos,
+      ":pos": part,
     },
     Limit: 5,
   };
