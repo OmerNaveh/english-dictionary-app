@@ -8,6 +8,8 @@ const {
 const {
   getRandomWordBySpeechPart,
 } = require("./controllers/getRandomWordBySpeechPat");
+const errorHandler = require("./middlewares/errorHandler");
+
 const app = express();
 const port = process.env.PORT || 4000;
 app.use(cors());
@@ -16,6 +18,7 @@ app.get("/:word", getByWord);
 app.get("/:word/:partOfSpeech", getByWordAndSpeechType);
 app.get("/part-of-speech/:part", getRandomWordBySpeechPart);
 
+app.use(errorHandler);
 app.listen(port, () => {
   console.log(`running on ${port}`);
 });
