@@ -1,0 +1,30 @@
+form {
+  display: flex;
+  flex-direction: column;
+  height: 6em;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0.4em;
+}
+input,
+select,
+button {
+  font-size: 1.3em;
+  border-radius: 0.3em;
+  border: none;
+  width: 100%;
+  box-shadow: 0 0 5px rgb(94, 94, 94);
+}
+form > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+select,
+button {
+  width: 48%;
+}
+button {
+  background-color: #76b39d;
+}
