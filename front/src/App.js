@@ -1,9 +1,9 @@
 import { useState } from "react";
 import DictionaryRender from "./components/DictionaryRender";
-import SearchBar from "./components/searchBar";
+import SearchBar from "./components/SearchBar";
 
 function App() {
-  const [dictionaryArr, setdictionaryArr] = useState([]);
+  const [dictionaryArr, setdictionaryArr] = useState(null);
 
   return (
     <div className="App">

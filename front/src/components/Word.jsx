@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import "../styles/word.css";
 export default function Word(props) {
   const searchFor = async () => {
     const searchWord = props.content.replace(/[.,!'?`"/\\;+|{}()%$@#*&^]/g, ""); //remove unwanted characters

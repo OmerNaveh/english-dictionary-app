@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import axios from "axios";
+import "../styles/search.css";
 export default function SearchBar(props) {
   const searchInput = useRef(null);
   const posInput = useRef(null);
@@ -34,13 +35,13 @@ export default function SearchBar(props) {
   return (
     <div>
       <input ref={searchInput} placeholder="Enter Word"></input>
-      <select defaultValue="" ref={posInput}>
-        <option disabled value="">
-          --select pos--
-        </option>
-        {options}
-      </select>
-      <button onClick={searchFor}>Search</button>
+      <div>
+        <select defaultValue="" ref={posInput}>
+          <option disabled value=""></option>
+          {options}
+        </select>
+        <button onClick={searchFor}>Search</button>
+      </div>
     </div>
   );
 }
