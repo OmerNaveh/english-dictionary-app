@@ -8,8 +8,8 @@ export default function SearchBar(props) {
     const word = searchInput.current.value;
     const pos = posInput.current.value;
     const searchUrl = !pos
-      ? `http://localhost:4000/${word}`
-      : `http://localhost:4000/${word}/${pos}`;
+      ? `https://kn1l85zst8.execute-api.eu-west-1.amazonaws.com/dev/${word}`
+      : `https://kn1l85zst8.execute-api.eu-west-1.amazonaws.com/dev/${word}/${pos}`;
     const response = await axios.get(searchUrl);
     props.setdictionaryArr(response.data);
     searchInput.current.value = "";

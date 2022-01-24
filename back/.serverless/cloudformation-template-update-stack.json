@@ -161,7 +161,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/express-app-lambda/dev/1642849282308-2022-01-22T11:01:22.308Z/express-app-lambda.zip"
+          "S3Key": "serverless/express-app-lambda/dev/1643038962212-2022-01-24T15:42:42.212Z/express-app-lambda.zip"
         },
         "Handler": "index.handler",
         "Runtime": "nodejs12.x",
@@ -179,14 +179,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersionhYEomCdCQ0H0AxpWnsvlMvbSOQ324PZRCY0hXwqxM": {
+    "AppLambdaVersionE8VNjOX8GmNkILxVxFjXWUDnUQs6ribzXFa2dv8k": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "Essuu/KBsY/FT1mTq6Cp+Aty7JwvCQ3YI7Wrw9s1ar0="
+        "CodeSha256": "ypZkuNkjC4tJdpL90AOdRXsL0gQaR43cv8XDJDXtKZo="
       }
     },
     "ApiGatewayRestApi": {
@@ -201,10 +201,25 @@
         "Policy": ""
       }
     },
-    "ApiGatewayMethodGet": {
+    "ApiGatewayResourceProxyVar": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "{proxy+}",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodAny": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
-        "HttpMethod": "GET",
+        "HttpMethod": "ANY",
         "RequestParameters": {},
         "ResourceId": {
           "Fn::GetAtt": [
@@ -250,7 +265,53 @@
         "AppLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1642849272785": {
+    "ApiGatewayMethodProxyVarAny": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "ANY",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceProxyVar"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "AppLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      },
+      "DependsOn": [
+        "AppLambdaPermissionApiGateway"
+      ]
+    },
+    "ApiGatewayDeployment1643038956494": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -259,7 +320,8 @@
         "StageName": "dev"
       },
       "DependsOn": [
-        "ApiGatewayMethodGet"
+        "ApiGatewayMethodAny",
+        "ApiGatewayMethodProxyVarAny"
       ]
     },
     "AppLambdaPermissionApiGateway": {
@@ -312,7 +374,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionhYEomCdCQ0H0AxpWnsvlMvbSOQ324PZRCY0hXwqxM"
+        "Ref": "AppLambdaVersionE8VNjOX8GmNkILxVxFjXWUDnUQs6ribzXFa2dv8k"
       },
       "Export": {
         "Name": "sls-express-app-lambda-dev-AppLambdaFunctionQualifiedArn"

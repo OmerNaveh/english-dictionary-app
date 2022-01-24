@@ -10,4 +10,5 @@ functions:
   app:
     handler: index.handler
     events:
-      - http: GET /
+      - http: ANY /
+      - http: "ANY {proxy+}"
